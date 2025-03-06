@@ -24,7 +24,7 @@ class LoginBottomSheetView: UIView {
     private let emailLabel: UILabel = {
         let label = UILabel()
         label.text = "login.email.title".localized
-        label.font = Typography.label
+        label.font = Typography.body
         label.translatesAutoresizingMaskIntoConstraints = false
         return label
     }()
@@ -40,7 +40,7 @@ class LoginBottomSheetView: UIView {
     private let passwordLabel: UILabel = {
         let label = UILabel()
         label.text = "login.password.title".localized
-        label.font = Typography.label
+        label.font = Typography.body
         label.translatesAutoresizingMaskIntoConstraints = false
         return label
     }()

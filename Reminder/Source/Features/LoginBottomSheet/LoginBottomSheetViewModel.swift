@@ -8,7 +8,7 @@
 import Foundation
 
 class LoginBottomSheetViewModel {
-    func doAuth(email: String, password: String) {
-        print(email)
+    func doAuth(user: String, password: String) {
+        print(user)
     }
 }

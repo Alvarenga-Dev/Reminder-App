@@ -6,5 +6,5 @@
 //
 
 protocol LoginBottomSheetViewDelegate: AnyObject {
-    func sendLoginRequest(email: String, password: String)
+    func sendLoginRequest(user: String, password: String)
 }

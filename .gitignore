@@ -1,0 +1,24 @@
+## Build generated
+build/
+DerivedData/
+
+## Various settings
+/Reminder/GoogleService-Info.plist
+xcuserdata/
+
+# CocoaPods
+Pods/
+*.xcworkspace
+
+### Xcode Patch ###
+*.xcodeproj/*
+project.pbxproj
+!*.xcodeproj/xcshareddata/
+!*.xcworkspace/contents.xcworkspacedata
+/*.gcno
+**/xcshareddata/WorkspaceSettings.xcsettings
+
+# xcodegen
+*.xcodeproj
+.DS_Store
+vendor/

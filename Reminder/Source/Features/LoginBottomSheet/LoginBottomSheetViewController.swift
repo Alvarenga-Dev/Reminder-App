@@ -9,9 +9,25 @@ import Foundation
 import UIKit
 
 class LoginBottomSheetViewController: UIViewController {
-    let contentView = LoginBottomSheetView() //Futuro add por DI
-    let viewModel = LoginBottomSheetViewModel() //Futuro add por DI
-    var handleAreaHeight: CGFloat = 50.0
+    
+    public weak var flowDelegate: LoginBottomSheetFlowDelegate?
+    
+    private let contentView: LoginBottomSheetView //Futuro add por DI
+    private let viewModel = LoginBottomSheetViewModel() //Futuro add por DI
+    private var handleAreaHeight: CGFloat = 50.0
+    
+    init(
+        contentView: LoginBottomSheetView,
+        flowDelegate: LoginBottomSheetFlowDelegate
+    ) {
+        self.contentView = contentView
+        self.flowDelegate = flowDelegate
+        super.init(nibName: nil, bundle: nil)
+    }
+    
+    required init?(coder: NSCoder) {
+        fatalError("init(coder:) has not been implemented")
+    }
     
     override func viewDidLoad() {
         super.viewDidLoad()
@@ -19,6 +35,7 @@ class LoginBottomSheetViewController: UIViewController {
         contentView.delegate = self
         setupUI()
         setupGesture()
+        bindViewModel()
     }
     
     private func setupUI() {
@@ -36,6 +53,12 @@ class LoginBottomSheetViewController: UIViewController {
         ])
         
         let heightConstraint = contentView.heightAnchor.constraint(equalTo: self.view.heightAnchor, multiplier: 0.5).isActive = true
+    }
+    
+    private func bindViewModel() {
+        viewModel.successResult = { [weak self] user in
+            self?.flowDelegate?.navigateToHome()
+        }
     }
     
     private func setupGesture() {

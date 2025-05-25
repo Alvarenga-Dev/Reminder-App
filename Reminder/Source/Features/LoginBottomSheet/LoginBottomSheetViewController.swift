@@ -56,10 +56,48 @@ class LoginBottomSheetViewController: UIViewController {
     }
     
     private func bindViewModel() {
-        viewModel.successResult = { [weak self] user in
-            self?.flowDelegate?.navigateToHome()
+        viewModel.successResult = { [weak self] email in
+            self?.setAlertActionSaveLogin(email: email)
+        }
+        
+        viewModel.errorResult = { [weak self] error in
+            self?.setAlertErrorMessage(message: error)
         }
     }
+    
+    private func setAlertActionSaveLogin(email: String) {
+        let alertController = UIAlertController(
+            title: "Deseja salvar o login?",
+            message: "Faça isso para que você possa entrar mais rápido na próxima vez",
+            preferredStyle: .alert
+        )
+        
+        let actionButtonSaveLogin = UIAlertAction(title: "Sim", style: .default) { _ in
+            let user = User(email: email, isUserSave: true)
+            UserDefaultsManager.saveUser(user: user)
+            self.flowDelegate?.navigateToHome()
+        }
+        
+        let actionButtonCancel = UIAlertAction(title: "Não", style: .cancel)
+        
+        alertController.addAction(actionButtonSaveLogin)
+        alertController.addAction(actionButtonCancel)
+        
+        self.present(alertController, animated: true)
+    }
+    
+    private func setAlertErrorMessage(message: String) {
+        let alertError = UIAlertController(
+            title: "Ops... parece que você teve algum problema",
+            message: "O erro apresentado é: \n\n \(message) \n\n Tente novamente.",
+            preferredStyle: .alert
+        )
+        alertError.addAction(
+            UIAlertAction(title: "Ok", style: .default)
+        )
+        self.present(alertError, animated: true)
+    }
+
     
     private func setupGesture() {
         

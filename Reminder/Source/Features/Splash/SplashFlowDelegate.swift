@@ -7,4 +7,5 @@
 
 public protocol SplashFlowDelegate: AnyObject {
     func openLoginBottomSheet()
+    func openToHome()
 }

@@ -29,15 +29,23 @@ class SplashViewController: UIViewController {
     
     override func viewDidLoad() {
         super.viewDidLoad()
-        setup()
+        setupComponents()
+        animateSplash()
     }
     
-    private func setup() {
+    private func setNavigationFlow() {
+        if let user = UserDefaultsManager.getUser(), user.isUserSave {
+            flowDelegate?.openToHome()
+        } else {
+            showLoginBottomSheet()
+        }
+    }
+    
+    private func setupComponents() {
         self.view.addSubview(contentView)
         self.navigationController?.navigationBar.isHidden = true
         self.view.backgroundColor = Colors.primaryRedBase
         setupContraints()
-        setupGesture()
     }
     
     private func setupContraints() {
@@ -51,13 +59,35 @@ class SplashViewController: UIViewController {
         contentView.translatesAutoresizingMaskIntoConstraints = false
     }
     
-    private func setupGesture() {
-        let tapGestureRecognizer = UITapGestureRecognizer(target: self, action: #selector(showLoginBottomSheet))
-        self.view.addGestureRecognizer(tapGestureRecognizer)
+    private func showLoginBottomSheet() {
+        animateGoToHome()
+        self.flowDelegate?.openLoginBottomSheet()
+    }
+}
+
+//MARK: Animations
+extension SplashViewController {
+    private func animateSplash() {
+        UIView.animate(
+            withDuration: 1.5,
+            delay: 0.0,
+            animations: {
+                self.contentView.logoImageView.transform = CGAffineTransform(scaleX: 1.1, y: 1.1)
+            },
+            completion: { _ in
+                self.setNavigationFlow()
+            }
+        )
     }
     
-    @objc
-    private func showLoginBottomSheet() {
-        self.flowDelegate?.openLoginBottomSheet()
+    private func animateGoToHome() {
+        UIView.animate(
+            withDuration: 0.5,
+            delay: 0.0,
+            options: [.curveEaseOut],
+            animations: {
+                self.contentView.logoImageView.transform = self.contentView.logoImageView.transform.translatedBy(x: 0, y: -140)
+            }
+        )
     }
 }

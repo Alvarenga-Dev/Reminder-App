@@ -12,7 +12,7 @@ class LoginBottomSheetViewController: UIViewController {
     
     public weak var flowDelegate: LoginBottomSheetFlowDelegate?
     
-    private let contentView: LoginBottomSheetView //Futuro add por DI
+    private let contentView: LoginBottomSheetView
     private let viewModel = LoginBottomSheetViewModel() //Futuro add por DI
     private var handleAreaHeight: CGFloat = 50.0
     
@@ -31,21 +31,23 @@ class LoginBottomSheetViewController: UIViewController {
     
     override func viewDidLoad() {
         super.viewDidLoad()
-        
-        contentView.delegate = self
-        setupUI()
-        setupGesture()
+        setupBindView()
+        setup()
         bindViewModel()
     }
     
-    private func setupUI() {
+    private func setupBindView() {
+        contentView.delegate = self
         self.view.addSubview(contentView)
-        contentView.translatesAutoresizingMaskIntoConstraints = false
-        
+    }
+    
+    private func setup() {
         setupContraints()
     }
     
     private func setupContraints() {
+        contentView.translatesAutoresizingMaskIntoConstraints = false
+        
         NSLayoutConstraint.activate([
             contentView.leadingAnchor.constraint(equalTo: view.leadingAnchor),
             contentView.trailingAnchor.constraint(equalTo: view.trailingAnchor),
@@ -96,15 +98,6 @@ class LoginBottomSheetViewController: UIViewController {
             UIAlertAction(title: "Ok", style: .default)
         )
         self.present(alertError, animated: true)
-    }
-
-    
-    private func setupGesture() {
-        
-    }
-    
-    private func handlePanGesture(_ gesture: UIPanGestureRecognizer) {
-        
     }
     
     internal func animateShow(completion: (() -> Void)? = nil) {
